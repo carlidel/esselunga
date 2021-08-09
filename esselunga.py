@@ -33,17 +33,21 @@ class album(object):
         self.normal += trade_normal
         self.special += trade_special
 
+    def completed(self):
+        return np.count_nonzero(self.normal == 0) + np.count_nonzero(self.special == 0) == 0
+
+    def get_n_packets(self):
+        return self.n_packets
+
     def open_packet(self, n_packets=1):
         for i in range(n_packets):
             self.n_packets += 1
 
-            normal_sample = np.random.choice(self.n_normal, self.n_p_normal)
-            for i in normal_sample:
-                self.normal[i] += 1
+            for i in range(self.n_p_normal):
+                self.normal[np.random.randint(self.n_normal)] += 1
             
-            special_sample = np.random.choice(self.n_special, self.n_p_special)
-            for i in special_sample:
-                self.special[i] += 1
+            for i in range(self.n_p_special):
+                self.special[np.random.randint(self.n_special)] += 1
         
 
 def trade_albums(album1, album2):
